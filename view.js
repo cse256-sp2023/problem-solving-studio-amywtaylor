@@ -1,6 +1,27 @@
 // ---- Define your dialogs  and panels here ----
+let select_user = define_new_user_select_field("select-user", "Users", function(selected_user) { $('#ep-panel').attr('username', selected_user) })
+$('#sidepanel').append(select_user)
 
+let effective_perms = define_new_effective_permissions("ep-panel", true)
+$('#sidepanel').append(effective_perms)
 
+$('#ep-panel').attr('filepath', '/C')
+
+let dialog = define_new_dialog("dialog")
+$('.perm_info').click(function(){
+
+    console.log('clicked!')
+    console.log($('#ep-panel').attr('filepath'), $('#ep-panel').attr('username'), $(this).attr('permission_name'))
+    
+    let my_user_obj_var = all_users[$('#ep-panel').attr('username')]
+    let my_file_obj_var = path_to_file[$('#ep-panel').attr('filepath')]
+    let explanation = get_explanation_text(allow_user_action(my_file_obj_var, my_user_obj_var, $(this).attr('permission_name'), true))
+    
+    dialog.empty()
+    dialog.append(explanation)
+    dialog.dialog("open")
+
+})
 
 // ---- Display file structure ----
 
